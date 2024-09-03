@@ -1,0 +1,130 @@
+openapi: 3.1.0
+info:
+  title: Crypto Tracker API
+  description: API for fetching Ethereum transactions, storing Ethereum prices, and calculating expenses.
+  version: 1.0.0
+servers:
+  - url: http://localhost:3000
+    description: Local development server
+
+paths:
+  /transactions/{address}:
+    get:
+      summary: Fetch Ethereum transactions
+      description: Retrieves Ethereum transactions for a given address from the Etherscan API and stores them in MongoDB.
+      parameters:
+        - name: address
+          in: path
+          required: true
+          description: Ethereum address to fetch transactions for.
+          schema:
+            type: string
+      responses:
+        '200':
+          description: A list of transactions associated with the provided Ethereum address.
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  type: object
+                  properties:
+                    address:
+                      type: string
+                      description: Ethereum address.
+                    txHash:
+                      type: string
+                      description: Transaction hash.
+                    blockNumber:
+                      type: string
+                      description: Block number of the transaction.
+                    timeStamp:
+                      type: string
+                      description: Timestamp of the transaction.
+                    gasUsed:
+                      type: string
+                      description: Gas used in the transaction.
+                    gasPrice:
+                      type: string
+                      description: Gas price at the time of the transaction.
+        '500':
+          description: Error occurred while fetching transactions.
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  message:
+                    type: string
+                    description: Error message.
+
+  /expenses/{address}:
+    get:
+      summary: Calculate total expenses and fetch Ethereum price
+      description: Calculates the total gas expenses for a given Ethereum address and fetches the latest Ethereum price.
+      parameters:
+        - name: address
+          in: path
+          required: true
+          description: Ethereum address to calculate expenses for.
+          schema:
+            type: string
+      responses:
+        '200':
+          description: Total gas expenses and current Ethereum price in INR.
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  totalExpenses:
+                    type: number
+                    description: Total gas expenses in Ether.
+                  currentPrice:
+                    type: number
+                    description: Latest Ethereum price in INR.
+        '500':
+          description: Error occurred while calculating expenses or fetching the price.
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  message:
+                    type: string
+                    description: Error message.
+
+components:
+  schemas:
+    Transaction:
+      type: object
+      properties:
+        address:
+          type: string
+          description: Ethereum address.
+        txHash:
+          type: string
+          description: Transaction hash.
+        blockNumber:
+          type: string
+          description: Block number of the transaction.
+        timeStamp:
+          type: string
+          description: Timestamp of the transaction.
+        gasUsed:
+          type: string
+          description: Gas used in the transaction.
+        gasPrice:
+          type: string
+          description: Gas price at the time of the transaction.
+
+    Price:
+      type: object
+      properties:
+        price:
+          type: number
+          description: Ethereum price in INR.
+        timestamp:
+          type: string
+          format: date-time
+          description: Time when the price was recorded.
