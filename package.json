@@ -7,21 +7,21 @@
     "@types/swagger-jsdoc": "^6.0.4",
     "@types/swagger-ui-express": "^4.1.6",
     "axios": "^1.7.7",
+    "copyfiles": "^2.4.1",
     "dotenv": "^16.4.5",
     "express": "^4.19.2",
     "js-yaml": "^4.1.0",
     "mongoose": "^8.6.0",
     "node-cron": "^3.0.3",
     "swagger-jsdoc": "^6.2.8",
-    "swagger-ui-express": "^5.0.1",
-    "typescript": "^5.5.4",
-    "copyfiles": "^2.4.1"
+    "swagger-ui-express": "^5.0.1"
   },
   "devDependencies": {
-    "@types/js-yaml": "^4.0.9"
+    "@types/js-yaml": "^4.0.9",
+    "typescript": "^5.5.4"
   },
   "scripts": {
-    "build": "tsc -b && copyfiles -u 1 src/docs/openapi.yaml dist/docs",
+    "build": "tsc -b",
     "start": "node dist/server.js"
   }
 }
